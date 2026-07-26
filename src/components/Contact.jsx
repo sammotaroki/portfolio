@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import MagneticLink from './MagneticLink'
 
 const SOCIALS = [
   {
@@ -68,31 +69,7 @@ export default function Contact() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24">
 
-          {/* Left — CTA */}
-          <div className="ct-content">
-            <h2 className="text-[2.4rem] sm:text-[2.8rem] font-extrabold tracking-[-0.04em]
-                           leading-[1.1] mb-6">
-              Let's build<br />
-              <span className="text-outline">something great.</span>
-            </h2>
-            <p className="font-mono text-[0.875rem] text-gray-400 leading-[1.9] mb-8 max-w-sm">
-              Open to new opportunities — whether that's a product to build, a system to
-              audit, or just a conversation about what you're working on.
-            </p>
-            <a
-              href="mailto:sammotaroki@gmail.com"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-bg font-mono
-                         text-[0.8rem] uppercase tracking-[0.1em] font-medium rounded
-                         hover:bg-white transition-colors duration-200
-                         hover:shadow-[0_0_40px_rgba(79,255,176,0.22)]"
-            >
-              Say hello
-              <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5"
-                viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
-            </a>
-          </div>
-
-          {/* Right — socials */}
+          {/* Left — socials */}
           <div className="flex flex-col gap-px bg-white/[0.06] border border-white/[0.06]
                           rounded-lg overflow-hidden self-start">
             {SOCIALS.map(({ label, handle, href, icon }) => (
@@ -125,6 +102,30 @@ export default function Contact() {
                 </svg>
               </a>
             ))}
+          </div>
+
+          {/* Right — CTA */}
+          <div className="ct-content">
+            <h2 className="text-[2.4rem] sm:text-[2.8rem] font-extrabold tracking-[-0.04em]
+                           leading-[1.1] mb-6">
+              Let's build<br />
+              <span className="text-outline">something great.</span>
+            </h2>
+            <p className="font-mono text-[0.875rem] text-gray-400 leading-[1.9] mb-8 max-w-sm">
+              Open to new opportunities — whether that's a product to build, a system to
+              audit, or just a conversation about what you're working on.
+            </p>
+            <MagneticLink
+              href="mailto:sammotaroki@gmail.com"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-bg font-mono
+                         text-[0.8rem] uppercase tracking-[0.1em] font-medium rounded
+                         hover:bg-white transition-colors duration-200
+                         hover:shadow-[0_0_40px_rgba(79,255,176,0.22)]"
+            >
+              Say hello
+              <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5"
+                viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </MagneticLink>
           </div>
         </div>
 

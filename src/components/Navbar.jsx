@@ -1,4 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const NAV_LINKS = [
   { label: 'About',    href: '#about'    },
@@ -10,11 +14,29 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [scrolled,  setScrolled]  = useState(false)
   const [menuOpen,  setMenuOpen]  = useState(false)
+  const progressRef = useRef(null)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    const trigger = ScrollTrigger.create({
+      trigger: document.body,
+      start: 'top -20',
+      onEnter: () => setScrolled(true),
+      onLeaveBack: () => setScrolled(false),
+    })
+    return () => trigger.kill()
+  }, [])
+
+  // Scroll-progress fill — tracks the user's own scroll 1:1, no autonomous motion
+  useEffect(() => {
+    const st = ScrollTrigger.create({
+      trigger: document.documentElement,
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: (self) => {
+        if (progressRef.current) gsap.set(progressRef.current, { scaleX: self.progress })
+      },
+    })
+    return () => st.kill()
   }, [])
 
   // Close mobile menu on hash navigation
@@ -113,6 +135,15 @@ export default function Navbar() {
             Blog — Coming soon
           </span>
         </div>
+      </div>
+
+      {/* Scroll progress */}
+      <div className="absolute left-0 right-0 bottom-0 h-px bg-white/[0.06] overflow-hidden" aria-hidden="true">
+        <div
+          ref={progressRef}
+          className="h-full w-full bg-accent origin-left"
+          style={{ transform: 'scaleX(0)' }}
+        />
       </div>
     </nav>
   )
