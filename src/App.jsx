@@ -10,7 +10,10 @@ import Contact from './components/Contact'
 gsap.registerPlugin(ScrollTrigger)
 
 export default function App() {
-  // Subtle ambient parallax on the fixed grid texture — ties --grid-shift to scroll progress
+  // Subtle ambient parallax on the fixed grid texture — moves at a fraction of raw
+  // scroll distance (not scroll progress) so the drift rate stays constant regardless
+  // of total page height, and wraps every 60px (the grid's own tile size) since the
+  // pattern repeats seamlessly at any offset.
   useEffect(() => {
     const mm = gsap.matchMedia()
     mm.add('(prefers-reduced-motion: no-preference)', () => {
@@ -20,7 +23,8 @@ export default function App() {
         end: 'bottom bottom',
         scrub: true,
         onUpdate: (self) => {
-          document.body.style.setProperty('--grid-shift', `${(self.progress * -40).toFixed(2)}px`)
+          const shift = (self.scroll() * 0.15) % 60
+          document.body.style.setProperty('--grid-shift', `${(-shift).toFixed(2)}px`)
         },
       })
       return () => st.kill()
